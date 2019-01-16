@@ -1,0 +1,11 @@
+{
+    "name": "the_factory_and_the_factory",
+    "version": "0.1.0",
+    "title": "The Factory And The Factory",
+    "author": "Muppet9010",
+    "contact": "",
+    "homepage": "",
+    "factorio_version": "0.16",
+    "dependencies": ["base >= 0.16"],
+    "description": "2 duelling factories intertwined"
+}
