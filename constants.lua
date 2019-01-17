@@ -23,6 +23,13 @@ Constants.Teams = {
     }
 }
 
+Constants.PlayerConstructionTeams = {}
+for _, team in pairs(Constants.Teams) do
+    if team.playerConstruction then
+        Constants.PlayerConstructionTeams[team.name] = Constants.Teams[team.name]
+    end
+end
+
 Constants.LandClaims = {
     none = {
         name = "none",
@@ -46,6 +53,7 @@ Constants.LandClaims = {
         team = Constants.Teams["team2"]
     },
 }
+
 Constants.LandClaimNames = {}
 for k, landClaim in pairs(Constants.LandClaims) do
     Constants.LandClaimNames[landClaim.landClaimName] = Constants.LandClaims[landClaim.name]
@@ -53,15 +61,23 @@ end
 
 Constants.CollisionMasks = {
     none = "layer-12",
-    anyTeam = "layer-13",
     team1 = "layer-14",
     team2 = "layer-15"
 }
 
-Constants.CollisionMaskLists = {
+Constants.LandClaimCollisionMaskLists = {
     none = {Constants.CollisionMasks.none},
-    team1 = {Constants.CollisionMasks.anyTeam, Constants.CollisionMasks.team1},
-    team2 = {Constants.CollisionMasks.anyTeam, Constants.CollisionMasks.team2}
+    team1 = {Constants.CollisionMasks.team1},
+    team2 = {Constants.CollisionMasks.team2}
 }
+
+Constants.BuildingCollisionMaskLists = {
+    team1 = {Constants.CollisionMasks.none, Constants.CollisionMasks.team2},
+    team2 = {Constants.CollisionMasks.none, Constants.CollisionMasks.team1}
+}
+
+function Constants.MakeTeamSpecificThingName(team, thingName)
+    return thingName .. "-" .. team.name
+end
 
 return Constants

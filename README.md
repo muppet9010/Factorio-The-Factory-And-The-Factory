@@ -10,40 +10,51 @@ Terminology:
 Unsee: to unsee is to ignore the existence of the other factory entirely. This includes its engineers, buildings and the activites of biters interacting with the other factory.
 Total Area: an area that YOUR facotry fully owns and the other team must fully unsee.
 Alter Area: an area the the OTHER factory fully owns and you must fully unsee.
-Crosshatched Area: an area that BOTH factories can use to pass through, but neither can build on.
+Crosshatched Area: a previously Total Area that a the other team has upgraded to have foot/vehicle access across. Can have primary teams buildings on it.
 Breach: the organisation that polices the seperation of the 2 factories and the unseeing process.
 Breach Agent: the agents who detain engineers in the case of a breach. May be real players or autonamous robots.
 
 
+Done v1:
+ - map tiles are claimed by a team using a land claim marker (team tile). team tiles cost 1 copper to make and you start the game with 100 per team. a team tile is something that is placed on the ground and not a direct map tile.
+ - you may only place all buildings on team tiles. they will be blocked by the game on other team's tiles and unclaimed tiles.
+ - you may place landmines on own tiles and unclaimed tiles, but not on the other teams tiles.
+
 
 TODO v1:
- - 2 forces each set to ally, but can't interact with each others buildings, etc
+ - have a construction/deconstruction tool for land claiming. this tool can handle allowed/blocked actions
+ - 2 new forces each set to enemy with each other, but with a mutual cease fire
  - breach is allied to everyone including biters
- - tiles are claimed by a team using a land claim tile (team tile). tiles cost 1 iron or 1 copper to make and you start the game with 100 per team. a team tile is the tile and not a surface type.
- - a team's tile can be placed on another teams tile to create a crosshatched area if there is nothing on the tile.
+ - a team's tile can be placed on another teams tile to create a crosshatched area if the space is unoccupied. the team making the crosshatch must have their new crosshatch tile connected to another of their tiles or crosshatchs.
  - nothing can be built on a cross hatched area by either team.
  - power poles don't attach to other team
- - power poles can only be placed where their entire powered radius can have team tiles placed under them
- - color overlay or fog on other teams buildings to distinguish
+ - power poles can only be placed where their entire powered radius can have team tiles placed under them or crosshatched. on placing the power pole team tiles for their powered radius will be takne from the player/logistic network and placed. otherwise the pole will be ripped up and returned.
+ - color overlay or fog on other teams buildings to distinguish (until 0.17 fancyness)
  - go on tile that is claimed by the other team = breach
- - if damage other team or their buildings = breach
+ - if damage other team or their buildings (other than landmines) = breach
  - if kill biters on other teams tiles or while attacking other teams buildings = breach
  - interact with other teams belts or rails = breach
  - manually connect to other teams eletric or circuit network = breach
  - drop items on other teams tiles = breach
  - players can change team via command or join breach
- - breach agents are units that phase in from main buildings and slowly hunt the player. they detain when physical contact is made and player is held as a breacher for some time based on crime.
+ - breach agents are units that phase in from main buildings and slowly hunt the player. they detain when physical contact is made and player is held as a breacher for some time based on crime. maybe some sort of armed breach agent from headquarters as well.
  - players can be breach agents, they do breach agent jobs and can not interact with any of the real world. they are breach models and effects.
  - killing/attacking a breach agent is a seious offence
- - Players can change factory and join breach via the Copula Hall.
+ - Players can change factory alliangence, visit the other factory and join the breach team via the Copula Hall.
+ - when you pickup an item from the ground that is other team specific convert it to be your team version.
 
 
-Done v1:
+Issues:
+ - how do you build a new track past/across the other teams track. belts you can underground.
+ - crosshatching can be exploited as an offensive move to frustrate your opponent.
+ - to get crosshatching past belts and rails may be impossible while they require ownernship, should they be immune from owenership and not prevent cross hatching?
 
 
- Ideas:
+Ideas:
  - method to object to other factions activities in an area and go to war after multiple objections
  - some mods or new things that the 2 teams can compete to do.
+ - check with Godmave on state of train tunnel mod as has been a long time.
+ - some sort of expensive underground passway for players and belts?
 
 
 0.17:
@@ -51,6 +62,6 @@ Done v1:
 
 
 
-
+Technical links:
 https://github.com/shanemadden/factorio-power-grid-comb/blob/master/control.lua
 https://github.com/mspielberg/factorio-miniloader/blob/master/lualib/onwireplaced.lua

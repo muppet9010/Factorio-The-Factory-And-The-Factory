@@ -1,27 +1,23 @@
-local Constants = require("constants")
+local Events = require("scripts/events")
+local LandClaim = require("scripts/land-claim")
+local Forces = require("scripts/forces")
 
 
-local function OnChunkGenerated(event)
-    local groundTiles = event.surface.find_tiles_filtered{area = event.area, collision_mask = "ground-tile"}
-    for k, tile in pairs(groundTiles) do
-        event.surface.create_entity{name = Constants.LandClaims["none"].landClaimName, position = tile.position, force = "neutral"}
-    end
+local function OnStartup()
+    if global.MOD == nil then global.MOD = {} end
+    Events.OnStartup()
+    LandClaim.OnStartup()
+    Forces.OnStartup()
 end
 
-local function OnBuiltEntity(event)
-    local created_entity = event.created_entity
-    if Constants.LandClaimNames[created_entity.name] ~= nil then
-        local noneLandClaim = created_entity.surface.find_entity(Constants.LandClaims["none"].landClaimName, created_entity.position)
-        noneLandClaim.destroy()
-    end
+local function OnLoad()
+    --will need to do commands again etc
 end
 
 
-script.on_event(defines.events.on_chunk_generated, OnChunkGenerated)
-script.on_event(defines.events.on_built_entity, OnBuiltEntity)
+script.on_init(OnStartup)
+script.on_load(OnLoad)
+script.on_configuration_changed(OnStartup)
 
-
---As testing
-script.on_event(defines.events.on_player_joined_game, function(event)
-    game.players[event.player_index].force.enable_all_recipes()
-end)
+script.on_event(defines.events.on_chunk_generated, function(eventData) Events.Fire(defines.events.on_chunk_generated, eventData) end)
+script.on_event(defines.events.on_built_entity, function(eventData) Events.Fire(defines.events.on_built_entity, eventData) end)
