@@ -19,12 +19,12 @@ Done v1:
  - map tiles are claimed by a team using a land claim marker (team tile). team tiles cost 1 copper to make and you start the game with 100 per team. a team tile is something that is placed on the ground and not a direct map tile.
  - you may only place all buildings on team tiles. they will be blocked by the game on other team's tiles and unclaimed tiles.
  - you may place landmines on own tiles and unclaimed tiles, but not on the other teams tiles.
+ - 2 new forces each set to enemy with each other, but with a mutual cease fire
+ - breach is allied to everyone including biters
 
 
 TODO v1:
  - have a construction/deconstruction tool for land claiming. this tool can handle allowed/blocked actions
- - 2 new forces each set to enemy with each other, but with a mutual cease fire
- - breach is allied to everyone including biters
  - a team's tile can be placed on another teams tile to create a crosshatched area if the space is unoccupied. the team making the crosshatch must have their new crosshatch tile connected to another of their tiles or crosshatchs.
  - nothing can be built on a cross hatched area by either team.
  - power poles don't attach to other team
@@ -40,6 +40,7 @@ TODO v1:
  - breach agents are units that phase in from main buildings and slowly hunt the player. they detain when physical contact is made and player is held as a breacher for some time based on crime. maybe some sort of armed breach agent from headquarters as well.
  - players can be breach agents, they do breach agent jobs and can not interact with any of the real world. they are breach models and effects.
  - killing/attacking a breach agent is a seious offence
+ - players can chnage team via command or admins can move them via command
  - Players can change factory alliangence, visit the other factory and join the breach team via the Copula Hall.
  - when you pickup an item from the ground that is other team specific convert it to be your team version.
 

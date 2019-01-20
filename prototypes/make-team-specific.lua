@@ -100,6 +100,7 @@ local function GenerateLandOwnershipSpecificGameRecipes(team)
             if landOwnedSpecificRecipe.expensive ~= nil and landOwnedSpecificRecipe.expensive.result ~= nil then
                 landOwnedSpecificRecipe.expensive.result = Constants.MakeTeamSpecificThingName(team, landOwnedSpecificRecipe.expensive.result)
             end
+            landOwnedSpecificRecipe.enabled = false
             data:extend({landOwnedSpecificRecipe})
             recipeNamesAffectedByLandOwnership[recipe.name] = true
             generatedLandOwnershipRecipeNames[landOwnedSpecificRecipe.name] = true

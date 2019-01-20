@@ -1,10 +1,19 @@
 local Constants = require("constants")
 local Commands = require("scripts/commands")
+local Events = require("scripts/events")
 local Forces = {}
 
 
 function Forces.OnStartup()
+    Forces.RegisterCommands()
     Forces.CreateForces()
+    Forces.FixAllForcesEnabledRecipes()
+
+    Events.RegisterHandler(defines.events.on_research_finished, "Forces.OnResearchCompleted", Forces.OnResearchCompleted)
+end
+
+
+function Forces.OnLoad()
     Forces.RegisterCommands()
 end
 
@@ -24,11 +33,50 @@ function Forces.CreateForces()
         end
         force.set_friend("breach", true)
         breachForce.set_friend(force, true)
+        force.chart(game.surfaces[1], {{x = -224, y =-224}, {x = 224, y = 224}})
     end
 
     local enemyForce = game.forces["enemy"]
     breachForce.set_friend(enemyForce, true)
     enemyForce.set_friend(breachForce, true)
+end
+
+
+function Forces.FixAllForcesEnabledRecipes()
+    for _, force in pairs(game.forces) do
+        local forceName = force.name
+        if Constants.PlayerConstructionTeams[forceName] then
+            local forceNameLength = string.len(forceName)
+            for _, recipe in pairs(force.recipes) do
+                if recipe.enabled and string.sub(recipe.name, -forceNameLength) ~= forceName then
+                    local teamSpecificRecipeName = Constants.MakeTeamSpecificThingName(Constants.Teams[forceName], recipe.name)
+                    if force.recipes[teamSpecificRecipeName] ~= nil then
+                        recipe.enabled = false
+                        force.recipes[teamSpecificRecipeName].enabled = true
+                    end
+                end
+            end
+            force.recipes[Constants.LandClaims[forceName].landClaimName].enabled = true
+        else
+            force.disable_all_prototypes()
+        end
+    end
+end
+
+
+function Forces.OnResearchCompleted(eventData)
+    local technology = eventData.research
+    local force = technology.force
+    for _, effect in pairs(technology.effects) do
+        if effect.type == "unlock-recipe" then
+            local unlockedRecipeName = effect.recipe
+            local teamSpecificRecipeName = Constants.MakeTeamSpecificThingName(Constants.Teams[force.name], unlockedRecipeName)
+            if force.recipes[teamSpecificRecipeName] ~= nil then
+                force.recipes[unlockedRecipeName].enabled = false
+                force.recipes[teamSpecificRecipeName].enabled = true
+            end
+        end
+    end
 end
 
 
@@ -98,7 +146,8 @@ end
 
 
 function Forces.MovePlayerToForce(player, force)
-    --TODO: empty inventory and change player to new force
+    --TODO: empty inventory and do anything else required before moving the players team
+    player.force = force
 end
 
 

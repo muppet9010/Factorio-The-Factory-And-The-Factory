@@ -11,7 +11,7 @@ local function OnStartup()
 end
 
 local function OnLoad()
-    --will need to do commands again etc
+    Forces.OnLoad()
 end
 
 
@@ -21,3 +21,4 @@ script.on_configuration_changed(OnStartup)
 
 script.on_event(defines.events.on_chunk_generated, function(eventData) Events.Fire(defines.events.on_chunk_generated, eventData) end)
 script.on_event(defines.events.on_built_entity, function(eventData) Events.Fire(defines.events.on_built_entity, eventData) end)
+script.on_event(defines.events.on_research_finished, function(eventData) Events.Fire(defines.events.on_research_finished, eventData) end)
