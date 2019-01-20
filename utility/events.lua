@@ -1,6 +1,6 @@
 local Events = {}
 
-function Events.OnStartup()
+function Events.PreOnStartup()
     if global.MOD.events == nil then global.MOD.events = {} end
 end
 

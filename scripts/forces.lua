@@ -1,6 +1,6 @@
 local Constants = require("constants")
-local Commands = require("scripts/commands")
-local Events = require("scripts/events")
+local Commands = require("utility/commands")
+local Events = require("utility/events")
 local Forces = {}
 
 
