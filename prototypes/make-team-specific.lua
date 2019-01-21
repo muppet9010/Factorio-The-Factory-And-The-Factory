@@ -5,7 +5,6 @@ local entityTypesAffectedByLandOwnership = {["accumulator"] = true, ["artillery-
 local entityTypesNotOnOpponentLandOwnership = {["land-mine"] = true}
 local entityNamesAffectedByLandOwnership = {} -- { {ENTITYNAME = true} }
 local itemNamesAffectedByLandOwnership = {} -- { {ITEMNAME = true} }
-local recipeNamesAffectedByLandOwnership = {} -- { {RECIPENAME = true} }
 
 
 local generatedLandOwnershipEntityNames = {}
@@ -16,12 +15,11 @@ local function GenerateLandOwnershipSpecificGameEntities(team)
                 if not generatedLandOwnershipEntityNames[prototype.name] then
                     local landOwnedSpecificEntity = table.deepcopy(prototype)
                     landOwnedSpecificEntity.name = Constants.MakeTeamSpecificThingName(team, landOwnedSpecificEntity.name)
-                    if landOwnedSpecificEntity.collision_mask ~= nil then
-                        for _, mask in pairs(Constants.BuildingCollisionMaskLists[team.name]) do
-                            table.insert(landOwnedSpecificEntity.collision_mask, mask)
-                        end
-                    else
-                        landOwnedSpecificEntity.collision_mask = Constants.BuildingCollisionMaskLists[team.name]
+                    if landOwnedSpecificEntity.collision_mask == nil then
+                        landOwnedSpecificEntity.collision_mask = {"item-layer", "object-layer", "player-layer", "water-tile"} --have to set a default for those that have nothing set in lua but inherit a default in game code if nil
+                    end
+                    for _, mask in pairs(Constants.BuildingCollisionMaskLists[team.name]) do
+                        table.insert(landOwnedSpecificEntity.collision_mask, mask)
                     end
                     if landOwnedSpecificEntity.minable ~= nil then
                         landOwnedSpecificEntity.minable.result = Constants.MakeTeamSpecificThingName(team, landOwnedSpecificEntity.minable.result)
@@ -102,7 +100,6 @@ local function GenerateLandOwnershipSpecificGameRecipes(team)
             end
             landOwnedSpecificRecipe.enabled = false
             data:extend({landOwnedSpecificRecipe})
-            recipeNamesAffectedByLandOwnership[recipe.name] = true
             generatedLandOwnershipRecipeNames[landOwnedSpecificRecipe.name] = true
         end
     end

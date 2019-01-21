@@ -2,32 +2,30 @@ local Constants = require("constants")
 
 
 local function CreateLandClaim(landClaim)
-    local landclaimItem = {
-        type = "item",
-        name = landClaim.landClaimName,
-        icons = {
-            {
-                icon = Constants.AssetModName .. "/graphics/icon/land-claim-" .. landClaim.landClaimImageName .. ".png",
-                icon_size = 64,
-                tint = landClaim.landClaimColor
-            }
-        },
-        flags = {"goes-to-quickbar"},
-        stack_size = 1000,
-        subgroup = "terrain",
-        order = "_[stone-brick]"
-    }
-    if settings.startup["landclaim-mode"].value == "entity" then
-        landclaimItem.place_result = landClaim.landClaimName
-    elseif settings.startup["landclaim-mode"].value == "tile" then
-        landclaimItem.place_as_tile = {
-            result = landClaim.landClaimName,
-            condition_size = 1,
-            condition = { "water-tile" }
+    data:extend({
+        {
+            type = "selection-tool",
+            name = landClaim.landClaimName,
+            icons = {
+                {
+                    icon = Constants.AssetModName .. "/graphics/icon/land-claim-" .. landClaim.landClaimImageName .. ".png",
+                    icon_size = 64,
+                    tint = landClaim.landClaimColor
+                }
+            },
+            flags = {"goes-to-quickbar"},
+            stack_size = 1000,
+            subgroup = "terrain",
+            order = "_[stone-brick]",
+            selection_color = landClaim.landClaimColor,
+            alt_selection_color = {r=1, g = 1, b = 1, a = 0.5},
+            selection_mode = {"any-tile"},
+            alt_selection_mode = {"matches-force", "buildable-type"},
+            selection_cursor_box_type = "entity",
+            alt_selection_cursor_box_type = "not-allowed",
+            draw_label_for_cursor_render = true
         }
-    end
-
-    data:extend({landclaimItem})
+    })
 end
 
 

@@ -72,8 +72,8 @@ Constants.LandClaimCollisionMaskLists = {
 }
 
 Constants.BuildingCollisionMaskLists = {
-    team1 = {Constants.CollisionMasks.none, Constants.CollisionMasks.team2},
-    team2 = {Constants.CollisionMasks.none, Constants.CollisionMasks.team1}
+    team1 = {Constants.CollisionMasks.team2},
+    team2 = {Constants.CollisionMasks.team1}
 }
 
 function Constants.MakeTeamSpecificThingName(team, thingName)

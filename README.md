@@ -16,20 +16,24 @@ Breach Agent: the agents who detain engineers in the case of a breach. May be re
 
 
 Done v1:
- - map tiles are claimed by a team using a land claim marker (team tile). team tiles cost 1 copper to make and you start the game with 100 per team. a team tile is something that is placed on the ground and not a direct map tile.
- - you may only place all buildings on team tiles. they will be blocked by the game on other team's tiles and unclaimed tiles.
- - you may place landmines on own tiles and unclaimed tiles, but not on the other teams tiles.
+ - map tiles are claimed by a team using a land claim marker (team tile). team tiles cost 1 copper to make.
+ - you may only place all buildings and landmines on team tiles or unclaimed tiles. they will be blocked by the game on other team's tiles.
  - 2 new forces each set to enemy with each other, but with a mutual cease fire
  - breach is allied to everyone including biters
 
 
+
 TODO v1:
- - have a construction/deconstruction tool for land claiming. this tool can handle allowed/blocked actions
+ - placing buildings (not landmines) on unclaimed tiles will automatically place team tiles if you/storage has enough. otherwise the building will be returned to the player/robot.
+ - a team tile is something that you use a special selection tool to draw the area you want to claim. allowing varying sized areas at a time.
+ - start the game with a number of land claims per team ???
  - a team's tile can be placed on another teams tile to create a crosshatched area if the space is unoccupied. the team making the crosshatch must have their new crosshatch tile connected to another of their tiles or crosshatchs.
  - nothing can be built on a cross hatched area by either team.
  - power poles don't attach to other team
- - power poles can only be placed where their entire powered radius can have team tiles placed under them or crosshatched. on placing the power pole team tiles for their powered radius will be takne from the player/logistic network and placed. otherwise the pole will be ripped up and returned.
- - color overlay or fog on other teams buildings to distinguish (until 0.17 fancyness)
+ - power poles can only be placed where their entire powered radius can have team tiles placed under them or crosshatched. on placing the power pole team tiles for their powered radius will be takne from the player/logistic network and placed. otherwise the pole will be ripped up and returned. same behaviour as when placing buildings and their footprint being land claimed.
+ - add a large wooden power pole with long wire reach, but no powered area. effectient for taking power across unclaimed land early on. (seperate mod, but as pre-req)
+ - add a tag to player names to show which team they are on, maybe force colours on them?
+
  - go on tile that is claimed by the other team = breach
  - if damage other team or their buildings (other than landmines) = breach
  - if kill biters on other teams tiles or while attacking other teams buildings = breach
@@ -40,8 +44,9 @@ TODO v1:
  - breach agents are units that phase in from main buildings and slowly hunt the player. they detain when physical contact is made and player is held as a breacher for some time based on crime. maybe some sort of armed breach agent from headquarters as well.
  - players can be breach agents, they do breach agent jobs and can not interact with any of the real world. they are breach models and effects.
  - killing/attacking a breach agent is a seious offence
- - players can chnage team via command or admins can move them via command
- - Players can change factory alliangence, visit the other factory and join the breach team via the Copula Hall.
+
+ - players can change team via command or admins can move them via command
+ - Players can change factory alliangence, visit the other factory and join the breach team via the Copula Hall. when chnagign team or visiting you leave everything behind, no ability to rob other team.
  - when you pickup an item from the ground that is other team specific convert it to be your team version.
 
 
@@ -52,14 +57,25 @@ Issues:
 
 
 Ideas:
- - method to object to other factions activities in an area and go to war after multiple objections
+ - method to object to other factions activities in an area
+ - pay to esclate towards war
  - some mods or new things that the 2 teams can compete to do.
- - check with Godmave on state of train tunnel mod as has been a long time.
+ - train tunnel mod should come out post 0.17. works in concept in 0.16
  - some sort of expensive underground passway for players and belts?
+ - rather than placing individual land placement tiles you have a bidding mechanism for buying whole plots.
+ - map starts with a random grid of cross hatched paths so everyone knows where they are from the start. allow short distance of track to be built across it. narrow enough belts can cross it. also maybe thin pre owned land lanes across the map to avoid lock in at belt stages
+ - landclaim tile get more expensive over time
+ - points for sending back resources throughout the game. value per resource goes down in a market mechanic
+ - reserved tile. costs more but can't be cross hatched by the opponent
+ - rails can cross on cross hatch, but not join. need to avoid griefing with trains however.
+ - race to X rockets launched as built in win option?
+ - loot/rewards out in the map to be explored and found (seperate mod if not already)
 
 
 0.17:
  - make building fully visible to own team and distorted to opponents using the new render options
+ - show opposing players all as the same color of their team. own team sees own players in chosen color
+ - selection tool allows filtering by entity prototype, rather than just all entities like current in 0.16. kept one tool per team so can use this in future.
 
 
 

@@ -4,17 +4,22 @@ local Events = require("utility/events")
 local Forces = {}
 
 
+function Events.RegisterEvents()
+    Events.RegisterHandler(defines.events.on_research_finished, "Forces.OnResearchCompleted", Forces.OnResearchCompleted)
+end
+
+
 function Forces.OnStartup()
-    Forces.RegisterCommands()
     Forces.CreateForces()
     Forces.FixAllForcesEnabledRecipes()
 
-    Events.RegisterHandler(defines.events.on_research_finished, "Forces.OnResearchCompleted", Forces.OnResearchCompleted)
+    Forces.OnLoad()
 end
 
 
 function Forces.OnLoad()
     Forces.RegisterCommands()
+    Events.RegisterEvents()
 end
 
 
