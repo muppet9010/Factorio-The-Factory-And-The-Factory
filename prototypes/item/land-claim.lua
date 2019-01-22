@@ -17,13 +17,12 @@ local function CreateLandClaim(landClaim)
             stack_size = 1000,
             subgroup = "terrain",
             order = "_[stone-brick]",
-            selection_color = landClaim.landClaimColor,
-            alt_selection_color = {r=1, g = 1, b = 1, a = 0.5},
+            selection_color = {a=0},
+            alt_selection_color = {a=0},
             selection_mode = {"any-tile"},
-            alt_selection_mode = {"matches-force", "buildable-type"},
-            selection_cursor_box_type = "entity",
-            alt_selection_cursor_box_type = "not-allowed",
-            draw_label_for_cursor_render = true
+            alt_selection_mode = {"any-tile"},
+            selection_cursor_box_type = "copy",
+            alt_selection_cursor_box_type = "not-allowed"
         }
     })
 end

@@ -72,6 +72,7 @@ end
 function Forces.OnResearchCompleted(eventData)
     local technology = eventData.research
     local force = technology.force
+    if Constants.Teams[force.name] == nil then return end
     for _, effect in pairs(technology.effects) do
         if effect.type == "unlock-recipe" then
             local unlockedRecipeName = effect.recipe

@@ -1,8 +1,6 @@
 local Constants = require("constants")
 
 
-local entityTypesAffectedByLandOwnership = {["accumulator"] = true, ["artillery-turret"] = true, ["beacon"] = true , ["boiler"] = true, ["arithmetic-combinator"] = true, ["decider-combinator"] = true, ["constant-combinator"] = true, ["container"] = true, ["logistic-container"] = true, ["infinity-container"] = true, ["assembling-machine"] = true, ["rocket-silo"] = true, ["furnace"] = true, ["electric-pole"] = true, ["gate"] = true, ["generator"] = true, ["heat-pipe"] = true, ["inserter"] = true, ["lab"] = true, ["lamp"] = true,["mining-drill"] = true, ["offshore-pump"] = true, ["pipe"] = true, ["pipe-to-ground"] = true, ["power-switch"] = true, ["programmable-speaker"] = true, ["pump"] = true, ["radar"] = true, ["curved-rail"] = true, ["straight-rail"] = true, ["rail-chain-signal"] = true, ["rail-signal"] = true, ["reactor"] = true, ["roboport"] = true, ["solar-panel"] = true, ["storage-tank"] = true, ["train-stop"] = true, ["loader"] = true, ["splitter"] = true, ["transport-belt"] = true, ["underground-belt"] = true, ["turret"] = true, ["ammo-turret"] = true, ["electric-turret"] = true, ["fluid-turret"] = true, ["wall"] = true}
-local entityTypesNotOnOpponentLandOwnership = {["land-mine"] = true}
 local entityNamesAffectedByLandOwnership = {} -- { {ENTITYNAME = true} }
 local itemNamesAffectedByLandOwnership = {} -- { {ITEMNAME = true} }
 
@@ -10,7 +8,7 @@ local itemNamesAffectedByLandOwnership = {} -- { {ITEMNAME = true} }
 local generatedLandOwnershipEntityNames = {}
 local function GenerateLandOwnershipSpecificGameEntities(team)
     for type, prototypes in pairs(data.raw) do
-        if entityTypesAffectedByLandOwnership[type] then
+        if Constants.EntityTypesAffectedByLandOwnership[type] then
             for _, prototype in pairs(prototypes) do
                 if not generatedLandOwnershipEntityNames[prototype.name] then
                     local landOwnedSpecificEntity = table.deepcopy(prototype)
@@ -31,7 +29,7 @@ local function GenerateLandOwnershipSpecificGameEntities(team)
                     generatedLandOwnershipEntityNames[landOwnedSpecificEntity.name] = true
                 end
             end
-        elseif entityTypesNotOnOpponentLandOwnership[type] then
+        elseif Constants.EntityTypesNotOnOpponentLandOwnership[type] then
             for _, prototype in pairs(prototypes) do
                 if not generatedLandOwnershipEntityNames[prototype.name] then
                     local landOwnedSpecificEntity = table.deepcopy(prototype)

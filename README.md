@@ -1,6 +1,6 @@
 # Factorio-The-Factory-And-The-Factory
 
-2 duelling factories are arising intertwined on this strange planet, born from the equally entwined earth cities of Beszel and UI Qoma. While they share the same physical space their engineers must "unsee" the neighbouring factory and all events that take place there. This seperation is vigerously enforced by an agency called Breach. The 2 factories are in a bitter race to better support their home city back on earth above their neighbor.
+2 peasefully competing factories are arising intertwined on this strange planet, born from the equally entwined earth cities of Beszel and UI Qoma. While they share the same physical space their engineers must "unsee" the neighbouring factory and all events that take place there. This seperation is vigerously enforced by an agency called Breach. The 2 factories are in a race to better support their home city back on earth above their neighbor.
 
 Based on the concepts from the noval The City & the City by China Mieville
 
@@ -18,14 +18,17 @@ Breach Agent: the agents who detain engineers in the case of a breach. May be re
 Done v1:
  - map tiles are claimed by a team using a land claim marker (team tile). team tiles cost 1 copper to make.
  - you may only place all buildings and landmines on team tiles or unclaimed tiles. they will be blocked by the game on other team's tiles.
- - 2 new forces each set to enemy with each other, but with a mutual cease fire
- - breach is allied to everyone including biters
-
+ - 2 new teams for the factories, each set to enemy with each other, but with a mutual cease fire. so can't interact with each others stuff, but won't automatically shoot each other.
+ - breach team is allied to everyone including biters
+ - a team tile is crafted and is a selection tool item to draw the area you want to claim. allowing varying sized areas at a time. it will then claim the selected tiles as approperiate.
+ - a team tile item has an alternative function of removing team tiles that don't have buildings on them.
+  - placing buildings (not landmines) on unclaimed tiles will automatically place team tiles if you/storage has enough. otherwise the building will be returned to the player.
+ - you can not remove land claim from under a building that needs it
 
 
 TODO v1:
- - placing buildings (not landmines) on unclaimed tiles will automatically place team tiles if you/storage has enough. otherwise the building will be returned to the player/robot.
- - a team tile is something that you use a special selection tool to draw the area you want to claim. allowing varying sized areas at a time.
+ - convert surface entity queries to get as one action and then loop over them
+ - robots placing buildings have same behaviour and restrictions as players, take land claim from logic network magically or cancel ghost.
  - start the game with a number of land claims per team ???
  - a team's tile can be placed on another teams tile to create a crosshatched area if the space is unoccupied. the team making the crosshatch must have their new crosshatch tile connected to another of their tiles or crosshatchs.
  - nothing can be built on a cross hatched area by either team.
@@ -59,23 +62,24 @@ Issues:
 Ideas:
  - method to object to other factions activities in an area
  - pay to esclate towards war
- - some mods or new things that the 2 teams can compete to do.
  - train tunnel mod should come out post 0.17. works in concept in 0.16
  - some sort of expensive underground passway for players and belts?
  - rather than placing individual land placement tiles you have a bidding mechanism for buying whole plots.
  - map starts with a random grid of cross hatched paths so everyone knows where they are from the start. allow short distance of track to be built across it. narrow enough belts can cross it. also maybe thin pre owned land lanes across the map to avoid lock in at belt stages
  - landclaim tile get more expensive over time
+ - frequently changing item requests like supply mission. over a set game time. gets harder and longer time as it progresses
  - points for sending back resources throughout the game. value per resource goes down in a market mechanic
+ - race to X rockets launched as built in win option?
  - reserved tile. costs more but can't be cross hatched by the opponent
  - rails can cross on cross hatch, but not join. need to avoid griefing with trains however.
- - race to X rockets launched as built in win option?
  - loot/rewards out in the map to be explored and found (seperate mod if not already)
 
 
-0.17:
+0.17 limitations resolved:
  - make building fully visible to own team and distorted to opponents using the new render options
  - show opposing players all as the same color of their team. own team sees own players in chosen color
- - selection tool allows filtering by entity prototype, rather than just all entities like current in 0.16. kept one tool per team so can use this in future.
+ - selection tool allows filtering by entity prototype, rather than just all entities like current in 0.16. kept one tool per team so can use this in future. at present due to 0.16 bug
+ - flying text feedback message can be shown to only 1 player and not everyone
 
 
 
