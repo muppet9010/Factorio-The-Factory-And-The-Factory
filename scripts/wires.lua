@@ -1,4 +1,4 @@
-local Events = require("utility/events")
+local Events = require("factorio-utils/events")
 --local Constants = require("constants")
 local Wires = {}
 

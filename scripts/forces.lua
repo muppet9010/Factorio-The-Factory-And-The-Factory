@@ -1,6 +1,6 @@
 local Constants = require("constants")
-local Commands = require("utility/commands")
-local Events = require("utility/events")
+local Commands = require("factorio-utils/commands")
+local Events = require("factorio-utils/events")
 local Forces = {}
 
 

@@ -1,5 +1,15 @@
-local Utils = require("utility/utils")
+local function GetTableLength(table)
+	local count = 0
+	for _ in pairs(table) do
+		count = count + 1
+	end
+	return count
+end
+
 local Logging = {}
+
+
+
 
 function Logging.PositionToString(position)
 	if position == nil then return "nil position" end
@@ -13,7 +23,7 @@ function Logging.TableContentsToString(target_table, name, indent, stop_traversi
 	local table_id = string.gsub(tostring(target_table), "table: ", "")
 	Logging.tablesLogged[table_id] = "logged"
 	local table_contents = ""
-	if Utils.GetTableLength(target_table) > 0 then
+	if GetTableLength(target_table) > 0 then
 		for k,v in pairs(target_table) do
 			local key, value
 			if type(k) == "string" or type(k) == "number" or type(k) == "boolean" then

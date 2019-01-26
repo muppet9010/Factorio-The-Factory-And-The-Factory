@@ -3,18 +3,28 @@ local Constants = {}
 Constants.ModName = "the_factory_and_the_factory"
 Constants.AssetModName = "__" .. Constants.ModName .. "__"
 
+Constants.Color = {
+    Invisible = {a=0},
+    Green = {r=0, g=0.8, b=0},
+    Red = {r=0.9, g=0, b=0},
+    White = {r=1, g=1, b=1},
+    Black = {r=0, g=0, b=0},
+    BrightBlue = {r= 102, g = 217, b = 255},
+    DullOrange = {r= 255, g = 153, b = 51}
+}
+
 Constants.Teams = {
     team1 = {
         name = "team1",
         playerConstruction = true,
         displayName = "Beszel",
-        colorName = "bright blue",
+        color = Constants.Color.BrightBlue
     },
     team2 = {
         name = "team2",
         playerConstruction = true,
         displayName = "UI Qoma",
-        colorName = "dull orange"
+        color = Constants.Color.DullOrange
     },
     breach = {
         name = "breach",
@@ -30,22 +40,18 @@ for _, team in pairs(Constants.Teams) do
     end
 end
 
-Constants.LandClaims = {
-    team1 = {
-        name = "team1",
+Constants.LandClaims = {}
+local function MakeLandClaimEntry(teamName)
+    Constants.LandClaims[teamName] = {
+        name = teamName,
         landClaimImageName = "team",
-        landClaimColor = {r= 102, g = 217, b = 255},
-        landClaimName = "team1-land-claim",
-        team = Constants.Teams["team1"]
-    },
-    team2 = {
-        name = "team2",
-        landClaimImageName = "team",
-        landClaimColor = {r= 255, g = 153, b = 51},
-        landClaimName = "team2-land-claim",
-        team = Constants.Teams["team2"]
+        landClaimColor = Constants.Teams[teamName].color,
+        landClaimName = teamName .. "-land-claim",
+        team = Constants.Teams[teamName]
     }
-}
+end
+MakeLandClaimEntry("team1")
+MakeLandClaimEntry("team2")
 
 Constants.LandClaimNames = {}
 for k, landClaim in pairs(Constants.LandClaims) do

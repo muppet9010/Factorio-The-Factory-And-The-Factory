@@ -1,8 +1,7 @@
 local Constants = require("constants")
-local Events = require("utility/events")
-local Color = require("utility/color")
-local Utils = require("utility/utils")
---local Logging = require("utility/logging")
+local Events = require("factorio-utils/events")
+local Utils = require("factorio-utils/utils")
+--local Logging = require("factorio-utils/logging")
 local LandClaim = {}
 
 
@@ -56,7 +55,7 @@ function LandClaim.OnSelectedAreaWithLandClaimTool(eventData)
     if #landClaimTilePositionsRequired == 0 then return end
 
     if #landClaimTilePositionsRequired > landClaimTilesHeld then
-        surface.create_entity{name = "flying-text", position = tilesSelected[#tilesSelected].position, text = {"player-message.not-enough-land-claim-tiles"}, color = Color.Red}
+        surface.create_entity{name = "flying-text", position = tilesSelected[#tilesSelected].position, text = {"player-message.not-enough-land-claim-tiles"}, color = Constants.Color.Red}
         return
     end
 
@@ -120,7 +119,7 @@ function LandClaim.BuildingPlacedPlayerCheckLandClaim(eventData)
         end
         player.remove_item({name = landClaimName, count = #landClaimNeeded})
     else
-        surface.create_entity{name = "flying-text", position = createdEntity.position, text = {"player-message.not-enough-land-claim-tiles"}, color = Color.Red}
+        surface.create_entity{name = "flying-text", position = createdEntity.position, text = {"player-message.not-enough-land-claim-tiles"}, color = Constants.Color.Red}
         player.insert({name = createdEntity.name, count = 1})
         createdEntity.destroy()
     end

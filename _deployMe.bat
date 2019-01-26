@@ -4,6 +4,9 @@
 
 REM GET CURRENT NAMES AND VERSIONS
 SET folderpath=%cd%
+CD..
+SET parentFolder=%cd%
+CD %folderpath%
 SET batchfilename=%~n0%~x0
 
 
@@ -22,12 +25,19 @@ SET modfoldername=%modname%_%version%
 
 
 
+REM COPY UTILS TO MOD
+RMDIR /S /Q "%folderpath%/factorio-utils"
+XCOPY "%parentFolder%/Factorio-Utils/utility" "%folderpath%/factorio-utils" /S /E /Y /I /Q
+
+
+
 REM REMOVE OLD FOLDER
 FOR /D %%G IN ("%APPDATA%\Factorio\mods\%modname%*") DO RMDIR /S /Q "%%~G"
 
 REM CREATE EXCLUDE FILES LIST
 ECHO .bat >> excludedfileslist.txt
 ECHO .xcf >> excludedfileslist.txt
+ECHO notes >> excludedfileslist.txt
 ECHO excludedfileslist.txt >> excludedfileslist.txt
 
 REM COPY THE FILES
