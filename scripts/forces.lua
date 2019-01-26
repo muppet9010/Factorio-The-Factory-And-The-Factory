@@ -29,16 +29,18 @@ function Forces.CreateForces()
     end
     local breachForce = game.forces["breach"]
 
-    for _, team in pairs(Constants.PlayerConstructionTeams) do
-        local force = game.forces[team.name]
-        for otherTeamName in pairs(Constants.PlayerConstructionTeams) do
-            if team.name ~= otherTeamName then
-                force.set_cease_fire(otherTeamName, true)
+    for _, team in pairs(Constants.Teams) do
+        if team.playerConstruction then
+            local force = game.forces[team.name]
+            for otherTeamName in pairs(Constants.Teams) do
+                if team.playerConstruction and team.name ~= otherTeamName then
+                    force.set_cease_fire(otherTeamName, true)
+                end
             end
+            force.set_friend("breach", true)
+            breachForce.set_friend(force, true)
+            force.chart(game.surfaces[1], {{x = -224, y =-224}, {x = 224, y = 224}})
         end
-        force.set_friend("breach", true)
-        breachForce.set_friend(force, true)
-        force.chart(game.surfaces[1], {{x = -224, y =-224}, {x = 224, y = 224}})
     end
 
     local enemyForce = game.forces["enemy"]
@@ -50,7 +52,7 @@ end
 function Forces.FixAllForcesEnabledRecipes()
     for _, force in pairs(game.forces) do
         local forceName = force.name
-        if Constants.PlayerConstructionTeams[forceName] then
+        if Constants.Teams[forceName] ~= nil and Constants.Teams[forceName].playerConstruction then
             local forceNameLength = string.len(forceName)
             for _, recipe in pairs(force.recipes) do
                 if recipe.enabled and string.sub(recipe.name, -forceNameLength) ~= forceName then
@@ -61,7 +63,7 @@ function Forces.FixAllForcesEnabledRecipes()
                     end
                 end
             end
-            force.recipes[Constants.LandClaims[forceName].landClaimName].enabled = true
+            force.recipes[Constants.Teams[forceName].landClaim.name].enabled = true
         else
             force.disable_all_prototypes()
         end

@@ -5,12 +5,12 @@ local function CreateLandClaim(landClaim)
     data:extend({
         {
             type = "selection-tool",
-            name = landClaim.landClaimName,
+            name = landClaim.name,
             icons = {
                 {
-                    icon = Constants.AssetModName .. "/graphics/icon/land-claim-" .. landClaim.landClaimImageName .. ".png",
+                    icon = Constants.AssetModName .. "/graphics/icon/land-claim-" .. landClaim.entityImageName .. ".png",
                     icon_size = 64,
-                    tint = landClaim.landClaimColor
+                    tint = landClaim.color
                 }
             },
             flags = {"goes-to-quickbar"},
@@ -29,7 +29,5 @@ end
 
 
 for _, landClaim in pairs(Constants.LandClaims) do
-    if landClaim.team ~= nil then
-        CreateLandClaim(landClaim)
-    end
+    CreateLandClaim(landClaim)
 end

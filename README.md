@@ -24,6 +24,7 @@ Done v1:
  - a team tile item has an alternative function of removing team tiles that don't have buildings on them.
  - placing buildings (not landmines) on unclaimed tiles will automatically place team tiles if you/storage has enough. otherwise the building will be returned to the player.
  - you can not remove land claim from under a building that needs it
+ - you can not place a land claim on top of another teams land claim
  - power poles don't attach to other team (connections removed by mod)
  - players can change team via command or admins can move them via command
  - add a large wooden power pole with long wire reach, but no powered area. effectient for taking power across unclaimed land early on. (seperate mod, but as pre-req)

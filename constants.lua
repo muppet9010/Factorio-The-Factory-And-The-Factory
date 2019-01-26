@@ -18,13 +18,19 @@ Constants.Teams = {
         name = "team1",
         playerConstruction = true,
         displayName = "Beszel",
-        color = Constants.Color.BrightBlue
+        color = Constants.Color.BrightBlue,
+        collisionMaskLayer = "layer-14",
+        landClaim = nil, --populated automatically
+        buildingCollisionMaskList = nil --populated automatically
     },
     team2 = {
         name = "team2",
         playerConstruction = true,
         displayName = "UI Qoma",
-        color = Constants.Color.DullOrange
+        color = Constants.Color.DullOrange,
+        collisionMaskLayer = "layer-15",
+        landClaim = nil, --populated automatically
+        buildingCollisionMaskList = nil --populated automatically
     },
     breach = {
         name = "breach",
@@ -33,45 +39,32 @@ Constants.Teams = {
     }
 }
 
-Constants.PlayerConstructionTeams = {}
-for _, team in pairs(Constants.Teams) do
-    if team.playerConstruction then
-        Constants.PlayerConstructionTeams[team.name] = Constants.Teams[team.name]
-    end
-end
-
 Constants.LandClaims = {}
 local function MakeLandClaimEntry(teamName)
-    Constants.LandClaims[teamName] = {
-        name = teamName,
-        landClaimImageName = "team",
-        landClaimColor = Constants.Teams[teamName].color,
-        landClaimName = teamName .. "-land-claim",
-        team = Constants.Teams[teamName]
+    Constants.LandClaims[teamName .. "-land-claim"] = {
+        name = teamName .. "-land-claim",
+        entityImageName = "team",
+        color = Constants.Teams[teamName].color,
+        team = Constants.Teams[teamName],
+        collisionMaskList = {Constants.Teams[teamName].collisionMaskLayer}
     }
+    Constants.Teams[teamName].landClaim = Constants.LandClaims[teamName .. "-land-claim"]
 end
 MakeLandClaimEntry("team1")
 MakeLandClaimEntry("team2")
 
-Constants.LandClaimNames = {}
-for k, landClaim in pairs(Constants.LandClaims) do
-    Constants.LandClaimNames[landClaim.landClaimName] = Constants.LandClaims[landClaim.name]
+--Generate the team's building blocker collision mask layers
+for _, team in pairs(Constants.Teams) do
+    if team.playerConstruction then
+        local otherTeamCollisionMasks = {}
+        for _, otherTeam in pairs(Constants.Teams) do
+            if otherTeam.playerConstruction and otherTeam.name ~= team.name then
+                table.insert(otherTeamCollisionMasks, otherTeam.collisionMaskLayer)
+            end
+        end
+        team.buildingCollisionMaskList = otherTeamCollisionMasks
+    end
 end
-
-Constants.CollisionMasks = {
-    team1 = "layer-14",
-    team2 = "layer-15"
-}
-
-Constants.LandClaimCollisionMaskLists = {
-    team1 = {Constants.CollisionMasks.team1},
-    team2 = {Constants.CollisionMasks.team2}
-}
-
-Constants.BuildingCollisionMaskLists = {
-    team1 = {Constants.CollisionMasks.team2},
-    team2 = {Constants.CollisionMasks.team1}
-}
 
 function Constants.MakeTeamSpecificThingName(team, thingName)
     return thingName .. "-" .. team.name

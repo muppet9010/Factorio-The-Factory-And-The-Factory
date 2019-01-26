@@ -5,14 +5,14 @@ local function CreateLandClaim(landClaim)
     data:extend({
         {
             type = "recipe",
-            name = landClaim.landClaimName,
+            name = landClaim.name,
             energy_required = 0.5,
             category = "crafting",
             ingredients =
             {
                 {"copper-plate", 1}
             },
-            result = landClaim.landClaimName,
+            result = landClaim.name,
             enabled = false
         }
     })
@@ -20,7 +20,5 @@ end
 
 
 for _, landClaim in pairs(Constants.LandClaims) do
-    if landClaim.team ~= nil then
-        CreateLandClaim(landClaim)
-    end
+    CreateLandClaim(landClaim)
 end

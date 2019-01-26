@@ -16,7 +16,7 @@ local function GenerateLandOwnershipSpecificGameEntities(team)
                     if landOwnedSpecificEntity.collision_mask == nil then
                         landOwnedSpecificEntity.collision_mask = {"item-layer", "object-layer", "player-layer", "water-tile"} --have to set a default for those that have nothing set in lua but inherit a default in game code if nil
                     end
-                    for _, mask in pairs(Constants.BuildingCollisionMaskLists[team.name]) do
+                    for _, mask in pairs(team.buildingCollisionMaskList) do
                         table.insert(landOwnedSpecificEntity.collision_mask, mask)
                     end
                     if landOwnedSpecificEntity.minable ~= nil then
@@ -37,10 +37,8 @@ local function GenerateLandOwnershipSpecificGameEntities(team)
                     if landOwnedSpecificEntity.collision_mask == nil then
                         landOwnedSpecificEntity.collision_mask = {}
                     end
-                    for _, mask in pairs(Constants.BuildingCollisionMaskLists[team.name]) do
-                        if mask ~= Constants.CollisionMasks.none then
-                            table.insert(landOwnedSpecificEntity.collision_mask, mask)
-                        end
+                    for _, mask in pairs(team.buildingCollisionMaskList) do
+                        table.insert(landOwnedSpecificEntity.collision_mask, mask)
                     end
                     if landOwnedSpecificEntity.minable ~= nil then
                         landOwnedSpecificEntity.minable.result = Constants.MakeTeamSpecificThingName(team, landOwnedSpecificEntity.minable.result)

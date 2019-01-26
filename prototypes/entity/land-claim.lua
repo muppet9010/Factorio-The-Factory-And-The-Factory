@@ -5,25 +5,25 @@ local function CreateLandClaim(landClaim)
     data:extend({
         {
             type = "simple-entity-with-force",
-            name = landClaim.landClaimName,
+            name = landClaim.name,
             icons = {
                 {
-                    icon = Constants.AssetModName .. "/graphics/entity/land-claim-" .. landClaim.landClaimImageName .. ".png",
+                    icon = Constants.AssetModName .. "/graphics/entity/land-claim-" .. landClaim.entityImageName .. ".png",
                     icon_size = 64,
-                    tint = landClaim.landClaimColor
+                    tint = landClaim.color
                 }
             },
-            order = landClaim.landClaimName,
+            order = landClaim.name,
             picture = {
-                filename = Constants.AssetModName .. "/graphics/entity/land-claim-" .. landClaim.landClaimImageName .. ".png",
+                filename = Constants.AssetModName .. "/graphics/entity/land-claim-" .. landClaim.entityImageName .. ".png",
                 width = 64,
                 height = 64,
-                tint = landClaim.landClaimColor,
+                tint = landClaim.color,
                 scale = 0.5
             },
             render_layer = "ground-patch-higher2",
             collision_box = {{-0.45, -0.45}, {0.45, 0.45}},
-            collision_mask = Constants.LandClaimCollisionMaskLists[landClaim.name],
+            collision_mask = landClaim.collisionMaskList,
             selection_box = {{-0.45, -0.45}, {0.45, 0.45}},
             flags = {"not-rotatable", "not-on-map", "placeable-player", "not-blueprintable", "not-deconstructable"},
             selectable_in_game = false

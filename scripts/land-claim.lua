@@ -25,8 +25,8 @@ end
 
 function LandClaim.OnSelectedAreaWithLandClaimTool(eventData)
     local player = game.players[eventData.player_index]
-    local landClaim = Constants.LandClaims[player.force.name]
-    local landClaimName = landClaim.landClaimName
+    local landClaim = Constants.Teams[player.force.name].landClaim
+    local landClaimName = landClaim.name
     local itemUsedName = eventData.item
     if itemUsedName ~= landClaimName then return end
 
@@ -36,13 +36,13 @@ function LandClaim.OnSelectedAreaWithLandClaimTool(eventData)
     local surface = player.surface
     for _, tile in pairs(tilesSelected) do
         local tileEntityPosition = Utils.ApplyOffsetToPosition(tile.position, {0.5, 0.5})
-        local entitiesFound = surface.find_entities_filtered{position = tileEntityPosition, force = player.force}
+        local entitiesFound = surface.find_entities_filtered{position = tileEntityPosition}
         local blocked = false
         for _, entityFound in pairs(entitiesFound) do
             if entityFound.name == landClaimName then
                 blocked = true
                 break
-            elseif Constants.LandClaimNames[entityFound.name] ~= nil then
+            elseif Constants.LandClaims[entityFound.name] ~= nil then
                 blocked = true
                 break
             end
@@ -68,8 +68,8 @@ end
 
 function LandClaim.OnAltSelectedAreaWithLandClaimTool(eventData)
     local player = game.players[eventData.player_index]
-    local landClaim = Constants.LandClaims[player.force.name]
-    local landClaimName = landClaim.landClaimName
+    local landClaim = Constants.Teams[player.force.name].landClaim
+    local landClaimName = landClaim.name
     local itemUsedName = eventData.item
     if itemUsedName ~= landClaimName then return end
 
@@ -106,8 +106,8 @@ function LandClaim.BuildingPlacedPlayerCheckLandClaim(eventData)
     if Constants.EntityTypesAffectedByLandOwnership[createdEntity.type] == nil then return end
 
     local player = game.players[eventData.player_index]
-    local landClaim = Constants.LandClaims[player.force.name]
-    local landClaimName = landClaim.landClaimName
+    local landClaim = Constants.Teams[player.force.name].landClaim
+    local landClaimName = landClaim.name
     local landClaimNeeded = LandClaim.CheckLandClaimNeededForBuilding(createdEntity, player, landClaimName)
     if #landClaimNeeded == 0 then return end
 
