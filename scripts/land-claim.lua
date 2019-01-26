@@ -95,7 +95,9 @@ function LandClaim.OnAltSelectedAreaWithLandClaimTool(eventData)
             tilesRemoved = tilesRemoved + 1
         end
     end
-    player.insert({name = landClaimName, count = tilesRemoved})
+    if tilesRemoved > 0 then
+        player.insert({name = landClaimName, count = tilesRemoved})
+    end
 end
 
 

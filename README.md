@@ -22,19 +22,22 @@ Done v1:
  - breach team is allied to everyone including biters
  - a team tile is crafted and is a selection tool item to draw the area you want to claim. allowing varying sized areas at a time. it will then claim the selected tiles as approperiate.
  - a team tile item has an alternative function of removing team tiles that don't have buildings on them.
-  - placing buildings (not landmines) on unclaimed tiles will automatically place team tiles if you/storage has enough. otherwise the building will be returned to the player.
+ - placing buildings (not landmines) on unclaimed tiles will automatically place team tiles if you/storage has enough. otherwise the building will be returned to the player.
  - you can not remove land claim from under a building that needs it
+ - power poles don't attach to other team (connections removed by mod)
+ - players can change team via command or admins can move them via command
+ - add a large wooden power pole with long wire reach, but no powered area. effectient for taking power across unclaimed land early on. (seperate mod, but as pre-req)
 
 
 TODO v1:
+ - power poles can only be placed where their entire powered radius can have team tiles placed under them. on placing the power pole team tiles for their powered radius will be takne from the player and placed. otherwise the pole will be ripped up and returned.
+ - robots placing power poles have same behaviour as when players placing them.
  - convert surface entity queries to get as one action and then loop over them
  - robots placing buildings have same behaviour and restrictions as players, take land claim from logic network magically or cancel ghost.
  - start the game with a number of land claims per team ???
  - a team's tile can be placed on another teams tile to create a crosshatched area if the space is unoccupied. the team making the crosshatch must have their new crosshatch tile connected to another of their tiles or crosshatchs.
  - nothing can be built on a cross hatched area by either team.
- - power poles don't attach to other team
- - power poles can only be placed where their entire powered radius can have team tiles placed under them or crosshatched. on placing the power pole team tiles for their powered radius will be takne from the player/logistic network and placed. otherwise the pole will be ripped up and returned. same behaviour as when placing buildings and their footprint being land claimed.
- - add a large wooden power pole with long wire reach, but no powered area. effectient for taking power across unclaimed land early on. (seperate mod, but as pre-req)
+ - power poles can be built while powering cross hatched areas.
  - add a tag to player names to show which team they are on, maybe force colours on them?
 
  - go on tile that is claimed by the other team = breach
@@ -48,8 +51,8 @@ TODO v1:
  - players can be breach agents, they do breach agent jobs and can not interact with any of the real world. they are breach models and effects.
  - killing/attacking a breach agent is a seious offence
 
- - players can change team via command or admins can move them via command
- - Players can change factory alliangence, visit the other factory and join the breach team via the Copula Hall. when chnagign team or visiting you leave everything behind, no ability to rob other team.
+ - Players can change factory alliangence, visit the other factory and join the breach team via the Copula Hall.
+ - When players channging team or visiting you leave everything behind, no ability to rob other team. Applies to command or via GUI (Copula Hall)
  - when you pickup an item from the ground that is other team specific convert it to be your team version.
 
 

@@ -1,6 +1,7 @@
 local Events = require("utility/events")
 local LandClaim = require("scripts/land-claim")
 local Forces = require("scripts/forces")
+local Wires = require("scripts/wires")
 
 
 local function OnStartup()
@@ -10,6 +11,7 @@ local function OnStartup()
 
     LandClaim.OnStartup()
     Forces.OnStartup()
+    Wires.OnStartup()
 end
 
 local function OnLoad()
@@ -17,6 +19,7 @@ local function OnLoad()
 
     LandClaim.OnLoad()
     Forces.OnLoad()
+    Wires.OnLoad()
 end
 
 

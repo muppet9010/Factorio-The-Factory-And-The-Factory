@@ -6,6 +6,6 @@
     "contact": "",
     "homepage": "",
     "factorio_version": "0.16",
-    "dependencies": ["base >= 0.16"],
+    "dependencies": ["base >= 0.16", "large_wooden_electric_pole >= 0.1"],
     "description": "2 duelling factories intertwined"
 }

@@ -4,7 +4,7 @@ local Events = require("utility/events")
 local Forces = {}
 
 
-function Events.RegisterEvents()
+function Forces.RegisterEvents()
     Events.RegisterHandler(defines.events.on_research_finished, "Forces.OnResearchCompleted", Forces.OnResearchCompleted)
 end
 
@@ -19,7 +19,7 @@ end
 
 function Forces.OnLoad()
     Forces.RegisterCommands()
-    Events.RegisterEvents()
+    Forces.RegisterEvents()
 end
 
 
