@@ -1,7 +1,7 @@
 local Constants = require("constants")
 local Events = require("factorio-utils/events")
 local Utils = require("factorio-utils/utils")
---local Logging = require("factorio-utils/logging")
+local Logging = require("factorio-utils/logging")
 local LandClaim = {}
 
 
@@ -14,6 +14,7 @@ end
 
 
 function LandClaim.OnStartup()
+    LandClaim.CalculateMaxPoweredSearchRadius()
     LandClaim.OnLoad()
 end
 
@@ -173,17 +174,17 @@ function LandClaim.CheckLandClaimNeededForBuilding(createdEntity, builder, landC
     local surface = createdEntity.surface
 
     local landClaimNeeded = {}
-    if createdEntity.type == "electric-pole" then
+    if createdEntity.type == "electric-pole" and createdEntity.prototype.supply_area_distance > 0 then
         local radius = createdEntity.prototype.supply_area_distance - 0.5
         local normalisedCreatedEntityPosition = {x = math.floor(createdEntity.position.x), y = math.floor(createdEntity.position.y)}
         local searchArea = Utils.CalculateBoundingBoxFromPositionAndRange(normalisedCreatedEntityPosition, radius)
         local tilesToCheck = Utils.CalculateTilesUnderPositionedBoundingBox(searchArea)
         for _, tilePosition in pairs(tilesToCheck) do
-            local tileEntityPosition = tilePosition
+            local tileEntityPosition = Utils.ApplyOffsetToPosition(tilePosition, {x=0.5, y=0.5})
             if surface.can_place_entity{name=landClaimName, position=tileEntityPosition, force=createdEntity.force} then
                 local tileAtPosition = surface.get_tile(tileEntityPosition.x, tileEntityPosition.y)
                 if not tileAtPosition.collides_with("water-tile") then
-                    local entitiesFound = surface.find_entities_filtered{position = tileEntityPosition}
+                    local entitiesFound = surface.find_entities_filtered{area = Utils.CalculateBoundingBoxFromPositionAndRange(tileEntityPosition, 0.1)}
                     local alreadyOwned = false
                     for _, entity in pairs(entitiesFound) do
                         if entity.name == landClaimName then
@@ -204,7 +205,7 @@ function LandClaim.CheckLandClaimNeededForBuilding(createdEntity, builder, landC
         local tilesToCheck = Utils.CalculateTilesUnderPositionedBoundingBox(searchArea)
         for _, tilePosition in pairs(tilesToCheck) do
             local tileEntityPosition = Utils.ApplyOffsetToPosition(tilePosition, {0.5, 0.5})
-            local landClaimFoundCount = surface.count_entities_filtered{position = tileEntityPosition, force = builder.force, name = landClaimName}
+            local landClaimFoundCount = surface.count_entities_filtered{area = Utils.CalculateBoundingBoxFromPositionAndRange(tileEntityPosition, 0.1), force = builder.force, name = landClaimName}
             if landClaimFoundCount == 0 then
                 table.insert(landClaimNeeded, tileEntityPosition)
             end
@@ -212,6 +213,19 @@ function LandClaim.CheckLandClaimNeededForBuilding(createdEntity, builder, landC
     end
 
     return landClaimNeeded, false
+end
+
+
+function LandClaim.CalculateMaxPoweredSearchRadius()
+    local maxPoweredSearchRadius = 0
+    for _, entity in pairs(game.entity_prototypes) do
+        if entity.type == "electric-pole" then
+            if entity.supply_area_distance > maxPoweredSearchRadius then
+                maxPoweredSearchRadius = entity.supply_area_distance
+            end
+        end
+    end
+    global.MOD.MaxPoweredSearchRadius = maxPoweredSearchRadius
 end
 
 

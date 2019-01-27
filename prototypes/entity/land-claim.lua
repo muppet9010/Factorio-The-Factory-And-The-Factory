@@ -22,7 +22,7 @@ local function CreateLandClaim(landClaim)
                 scale = 0.5
             },
             render_layer = "ground-patch-higher2",
-            collision_box = {{-0.45, -0.45}, {0.45, 0.45}},
+            collision_box = {{-0.4, -0.4}, {0.4, 0.4}},
             collision_mask = landClaim.collisionMaskList,
             selection_box = {{-0.45, -0.45}, {0.45, 0.45}},
             flags = {"not-rotatable", "not-on-map", "placeable-player", "not-blueprintable", "not-deconstructable"},

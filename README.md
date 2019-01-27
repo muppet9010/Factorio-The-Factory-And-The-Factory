@@ -21,7 +21,7 @@ Done v1:
  - 2 new teams for the factories, each set to enemy with each other, but with a mutual cease fire. so can't interact with each others stuff, but won't automatically shoot each other.
  - breach team is allied to everyone including biters
  - a team tile is crafted and is a selection tool item to draw the area you want to claim. allowing varying sized areas at a time. it will then claim the selected tiles as approperiate.
- - a team tile item has an alternative function of removing team tiles that don't have buildings on them.
+ - a team tile item has an alternative function that can pickup team tiles not in use.
  - placing buildings (not landmines) on unclaimed tiles will automatically place team tiles if you/storage has enough. otherwise the building will be returned to the player.
  - you can not remove land claim from under a building that needs it
  - you can not place a land claim on top of another teams land claim
