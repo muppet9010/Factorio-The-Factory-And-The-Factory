@@ -4,7 +4,7 @@ local Constants = require("constants")
 local function CreateLandClaim(landClaim)
     data:extend({
         {
-            type = "simple-entity-with-force",
+            type = "simple-entity-with-owner",
             name = landClaim.name,
             icons = {
                 {

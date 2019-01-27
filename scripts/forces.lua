@@ -136,19 +136,28 @@ function Forces.ChangeMyForceCommand(data)
 
     local suppliedTeamString = data.parameter
     local targetForce = game.forces[suppliedTeamString]
+    local teamDisplayName
     if targetForce == nil then
         for _, team in pairs(Constants.Teams) do
             if team.displayName == suppliedTeamString then
                 targetForce = game.forces[team.name]
+                teamDisplayName = team.displayName
                 break
             end
+        end
+    else
+        if Constants.Teams[targetForce.name] ~= nil then
+            teamDisplayName = Constants.Teams[targetForce.name].displayName
+        else
+            teamDisplayName = targetForce.name
         end
     end
     if targetForce == nil then
         callingPlayer.print{"api-error.team-not-valid", suppliedTeamString}
         return
     end
-    game.print{"api-message.player-moved-to-team", callingPlayer.name, Constants.Teams[targetForce.name].displayName}
+
+    game.print{"api-message.player-moved-to-team", callingPlayer.name, teamDisplayName}
     Forces.MovePlayerToForce(callingPlayer, targetForce)
 end
 

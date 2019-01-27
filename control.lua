@@ -2,6 +2,7 @@ local Events = require("factorio-utils/events")
 local LandClaim = require("scripts/land-claim")
 local Forces = require("scripts/forces")
 local Wires = require("scripts/wires")
+local Breach = require("scripts/breach")
 
 
 local function OnStartup()
@@ -12,6 +13,7 @@ local function OnStartup()
     LandClaim.OnStartup()
     Forces.OnStartup()
     Wires.OnStartup()
+    Breach.OnStartup()
 end
 
 local function OnLoad()

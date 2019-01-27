@@ -16,7 +16,7 @@ Breach Agent: the agents who detain engineers in the case of a breach. May be re
 
 
 Done v1:
- - map tiles are claimed by a team using a land claim marker (team tile). team tiles cost 1 copper to make.
+ - ground (non water) map tiles are claimed by a team using a land claim marker (team tile). team tiles cost 1 copper to make.
  - you may only place all buildings and landmines on team tiles or unclaimed tiles. they will be blocked by the game on other team's tiles.
  - 2 new teams for the factories, each set to enemy with each other, but with a mutual cease fire. so can't interact with each others stuff, but won't automatically shoot each other.
  - breach team is allied to everyone including biters
@@ -28,17 +28,18 @@ Done v1:
  - power poles don't attach to other team (connections removed by mod)
  - players can change team via command or admins can move them via command
  - add a large wooden power pole with long wire reach, but no powered area. effectient for taking power across unclaimed land early on. (seperate mod, but as pre-req)
+ - power poles can only be placed where their entire powered radius can have team tiles placed under them. on placing the power pole team tiles for their powered radius will be takne from the player and placed. otherwise the pole will be ripped up and returned.
+ - start the game with a box of 100 land claims per team
 
 
 TODO v1:
- - power poles can only be placed where their entire powered radius can have team tiles placed under them. on placing the power pole team tiles for their powered radius will be takne from the player and placed. otherwise the pole will be ripped up and returned.
+ - positioned collision box (Utils.ApplyBoundingBoxToPosition) needs to account for the rotation of the entity - causing offshore pump to go wrong
+ - landclaim tool can't remove claim tiles which are powered
  - robots placing power poles have same behaviour as when players placing them.
- - convert surface entity queries to get as one action and then loop over them
  - robots placing buildings have same behaviour and restrictions as players, take land claim from logic network magically or cancel ghost.
- - start the game with a number of land claims per team ???
  - a team's tile can be placed on another teams tile to create a crosshatched area if the space is unoccupied. the team making the crosshatch must have their new crosshatch tile connected to another of their tiles or crosshatchs.
  - nothing can be built on a cross hatched area by either team.
- - power poles can be built while powering cross hatched areas.
+ - power poles can be built while powering cross hatched areas?
  - add a tag to player names to show which team they are on, maybe force colours on them?
 
  - go on tile that is claimed by the other team = breach
@@ -52,9 +53,9 @@ TODO v1:
  - players can be breach agents, they do breach agent jobs and can not interact with any of the real world. they are breach models and effects.
  - killing/attacking a breach agent is a seious offence
 
- - Players can change factory alliangence, visit the other factory and join the breach team via the Copula Hall.
- - When players channging team or visiting you leave everything behind, no ability to rob other team. Applies to command or via GUI (Copula Hall)
- - when you pickup an item from the ground that is other team specific convert it to be your team version.
+ - Players can change factory alliangence, visit the other factory and join the breach team via the Copula Hall (breach and invunverable).
+ - When players change team or visit the other team you leave everything behind in a team box at copula hall, no ability to rob other team. Applies to command or via GUI (Copula Hall)
+ - when you pickup an item from the ground or spawn with anything it is convert it to be your team specific version.
 
 
 Issues:
