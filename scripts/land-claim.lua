@@ -38,32 +38,12 @@ function LandClaim.OnSelectedAreaWithLandClaimTool(eventData)
     local landClaimTilePositionsRequired = {}
     local surface = player.surface
 
-
-    --[[for _, tile in pairs(tilesSelected) do
-        local tileEntityPosition = Utils.ApplyOffsetToPosition(tile.position, {0.5, 0.5})
-        local entitiesFound = surface.find_entities_filtered{position = tileEntityPosition}
-        local blocked = false
-        for _, entityFound in pairs(entitiesFound) do
-            if entityFound.name == landClaimName then
-                blocked = true
-                break
-            elseif Constants.LandClaims[entityFound.name] ~= nil then
-                blocked = true
-                break
-            end
-        end
-        if not blocked then
-            table.insert(landClaimTilePositionsRequired, tileEntityPosition)
-        end
-    end]]
-
-
     for _, tile in pairs(tilesSelected) do
-        local tileEntityPosition = Utils.ApplyOffsetToPosition(tile.position, {0.5, 0.5})
+        local tileEntityPosition = Utils.ApplyOffsetToPosition(tile.position, {x=0.5, y=0.5})
         if surface.can_place_entity{name=landClaimName, position=tileEntityPosition, force=player.force} then
             local tileAtPosition = surface.get_tile(tileEntityPosition.x, tileEntityPosition.y)
             if not tileAtPosition.collides_with("water-tile") then
-                local entitiesFound = surface.find_entities_filtered{position = tileEntityPosition}
+                local entitiesFound = surface.find_entities_filtered{area = Utils.CalculateBoundingBoxFromPositionAndRange(tileEntityPosition, 0.1), name = Constants.AllLandClaimNamesList}
                 local blocked = false
                 for _, entityFound in pairs(entitiesFound) do
                     if entityFound.name == landClaimName then
@@ -107,8 +87,8 @@ function LandClaim.OnAltSelectedAreaWithLandClaimTool(eventData)
     local surface = player.surface
     local tilesRemoved = 0
     for _, tile in pairs(tilesSelected) do
-        local tileEntityPosition = Utils.ApplyOffsetToPosition(tile.position, {0.5, 0.5})
-        local entitiesFound = surface.find_entities_filtered{position = tileEntityPosition, force = player.force}
+        local tileEntityPosition = Utils.ApplyOffsetToPosition(tile.position, {x=0.5, y=0.5})
+        local entitiesFound = surface.find_entities_filtered{area = Utils.CalculateBoundingBoxFromPositionAndRange(tileEntityPosition, 0.1), force = player.force}
         local landClaimToRemove
         local buildingBlocksRemoval = false
         for _, entityFound in pairs(entitiesFound) do
@@ -145,14 +125,15 @@ function LandClaim.BuildingPlacedPlayerCheckLandClaim(eventData)
         player.insert({name = Utils.GetEntityReturnedToInventoryName(createdEntity), count = 1})
         createdEntity.destroy()
     end
-    if #landClaimNeeded == 0 then return end
+    local landClaimNeededCount = Utils.GetTableLength(landClaimNeeded)
+    if landClaimNeededCount == 0 then return end
 
     local landClaimTilesHeld = player.get_item_count(landClaimName)
-    if #landClaimNeeded <= landClaimTilesHeld then
+    if landClaimNeededCount <= landClaimTilesHeld then
         for _, requiredPosition in pairs(landClaimNeeded) do
             surface.create_entity{name = landClaimName, position = requiredPosition, force = player.force}
         end
-        player.remove_item({name = landClaimName, count = #landClaimNeeded})
+        player.remove_item({name = landClaimName, count = landClaimNeededCount})
     else
         surface.create_entity{name = "flying-text", position = createdEntity.position, text = {"player-message.not-enough-land-claim-tiles"}, color = Constants.Color.Red}
         player.insert({name = Utils.GetEntityReturnedToInventoryName(createdEntity), count = 1})
@@ -174,9 +155,11 @@ function LandClaim.CheckLandClaimNeededForBuilding(createdEntity, builder, landC
     local surface = createdEntity.surface
 
     local landClaimNeeded = {}
+
+    --TODO: this is shifted 1 positive for entities that are on a tile boundary , not centred on a tile
     if createdEntity.type == "electric-pole" and createdEntity.prototype.supply_area_distance > 0 then
         local radius = createdEntity.prototype.supply_area_distance - 0.5
-        local normalisedCreatedEntityPosition = {x = math.floor(createdEntity.position.x), y = math.floor(createdEntity.position.y)}
+        local normalisedCreatedEntityPosition = Utils.ApplyOffsetToPosition(createdEntity.position, {x=-0.5,y=-0.5})
         local searchArea = Utils.CalculateBoundingBoxFromPositionAndRange(normalisedCreatedEntityPosition, radius)
         local tilesToCheck = Utils.CalculateTilesUnderPositionedBoundingBox(searchArea)
         for _, tilePosition in pairs(tilesToCheck) do
@@ -184,7 +167,7 @@ function LandClaim.CheckLandClaimNeededForBuilding(createdEntity, builder, landC
             if surface.can_place_entity{name=landClaimName, position=tileEntityPosition, force=createdEntity.force} then
                 local tileAtPosition = surface.get_tile(tileEntityPosition.x, tileEntityPosition.y)
                 if not tileAtPosition.collides_with("water-tile") then
-                    local entitiesFound = surface.find_entities_filtered{area = Utils.CalculateBoundingBoxFromPositionAndRange(tileEntityPosition, 0.1)}
+                    local entitiesFound = surface.find_entities_filtered{area = Utils.CalculateBoundingBoxFromPositionAndRange(tileEntityPosition, 0.1), name = Constants.AllLandClaimNamesList}
                     local alreadyOwned = false
                     for _, entity in pairs(entitiesFound) do
                         if entity.name == landClaimName then
@@ -195,20 +178,22 @@ function LandClaim.CheckLandClaimNeededForBuilding(createdEntity, builder, landC
                         end
                     end
                     if not alreadyOwned then
-                        table.insert(landClaimNeeded, tileEntityPosition)
+                        landClaimNeeded[Utils.FormatPositionTableToString(tileEntityPosition)] = tileEntityPosition
                     end
                 end
             end
         end
-    else
-        local searchArea = Utils.ApplyBoundingBoxToPosition(createdEntity.position, createdEntity.prototype.collision_box, createdEntity.direction)
-        local tilesToCheck = Utils.CalculateTilesUnderPositionedBoundingBox(searchArea)
-        for _, tilePosition in pairs(tilesToCheck) do
-            local tileEntityPosition = Utils.ApplyOffsetToPosition(tilePosition, {0.5, 0.5})
-            local landClaimFoundCount = surface.count_entities_filtered{area = Utils.CalculateBoundingBoxFromPositionAndRange(tileEntityPosition, 0.1), force = builder.force, name = landClaimName}
-            if landClaimFoundCount == 0 then
-                table.insert(landClaimNeeded, tileEntityPosition)
-            end
+    end
+
+    local searchArea = Utils.ApplyBoundingBoxToPosition(createdEntity.position, createdEntity.prototype.collision_box, createdEntity.direction)
+    local tilesToCheck = Utils.CalculateTilesUnderPositionedBoundingBox(searchArea)
+    game.print(serpent.block(landClaimNeeded))
+    for _, tilePosition in pairs(tilesToCheck) do
+        local tileEntityPosition = Utils.ApplyOffsetToPosition(tilePosition, {x=0.5, y=0.5})
+        local landClaimFoundCount = surface.count_entities_filtered{area = Utils.CalculateBoundingBoxFromPositionAndRange(tileEntityPosition, 0.1), force = builder.force, name = landClaimName}
+        if landClaimFoundCount == 0 then
+            landClaimNeeded[Utils.FormatPositionTableToString(tileEntityPosition)] = tileEntityPosition
+            game.print(Logging.PositionToString(tileEntityPosition))
         end
     end
 

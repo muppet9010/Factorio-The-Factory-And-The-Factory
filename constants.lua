@@ -1,3 +1,4 @@
+local Utils = require("factorio-utils/utils")
 local Constants = {}
 
 Constants.ModName = "the_factory_and_the_factory"
@@ -41,17 +42,19 @@ Constants.Teams = {
 
 Constants.LandClaims = {}
 local function MakeLandClaimEntry(teamName)
-    Constants.LandClaims[teamName .. "-land-claim"] = {
-        name = teamName .. "-land-claim",
+    local landClaimName = teamName .. "-land-claim"
+    Constants.LandClaims[landClaimName] = {
+        name = landClaimName,
         entityImageName = "team",
         color = Constants.Teams[teamName].color,
         team = Constants.Teams[teamName],
         collisionMaskList = {Constants.Teams[teamName].collisionMaskLayer}
     }
-    Constants.Teams[teamName].landClaim = Constants.LandClaims[teamName .. "-land-claim"]
+    Constants.Teams[teamName].landClaim = Constants.LandClaims[landClaimName]
 end
 MakeLandClaimEntry("team1")
 MakeLandClaimEntry("team2")
+Constants.AllLandClaimNamesList = Utils.TableKeyToArray(Constants.LandClaims)
 
 --Generate the team's building blocker collision mask layers
 for _, team in pairs(Constants.Teams) do
