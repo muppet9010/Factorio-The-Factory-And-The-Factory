@@ -3,6 +3,7 @@ local LandClaim = require("scripts/land-claim")
 local Forces = require("scripts/forces")
 local Wires = require("scripts/wires")
 local Breach = require("scripts/breach")
+local Player = require("scripts/player")
 
 
 local function OnStartup()
@@ -14,6 +15,7 @@ local function OnStartup()
     Forces.OnStartup()
     Wires.OnStartup()
     Breach.OnStartup()
+    Player.OnStartup()
 end
 
 local function OnLoad()
@@ -22,6 +24,7 @@ local function OnLoad()
     LandClaim.OnLoad()
     Forces.OnLoad()
     Wires.OnLoad()
+    Player.OnLoad()
 end
 
 
@@ -35,3 +38,5 @@ script.on_event(defines.events.on_research_finished, Events.CallHandler)
 script.on_event(defines.events.on_runtime_mod_setting_changed, Events.CallHandler)
 script.on_event(defines.events.on_player_selected_area, Events.CallHandler)
 script.on_event(defines.events.on_player_alt_selected_area, Events.CallHandler)
+script.on_event(defines.events.on_player_created, Events.CallHandler)
+Events.RegisterEvent("SetPlayerPermissionGroup")

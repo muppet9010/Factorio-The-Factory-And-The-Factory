@@ -17,19 +17,20 @@ Breach Agent: the agents who detain engineers in the case of a breach. May be re
 
 Done v1:
  - ground (non water) map tiles are claimed by a team using a land claim marker (team tile). team tiles cost 1 copper to make.
- - you may only place all buildings and landmines on team tiles or unclaimed tiles. they will be blocked by the game on other team's tiles.
- - 2 new teams for the factories, each set to enemy with each other, but with a mutual cease fire. so can't interact with each others stuff, but won't automatically shoot each other.
- - breach team is allied to everyone including biters
+ - each team starts the game with a box of 100 team tiles
  - a team tile is crafted and is a selection tool item to draw the area you want to claim. allowing varying sized areas at a time. it will then claim the selected tiles as approperiate.
  - a team tile item has an alternative function that can pickup team tiles not in use.
+ - you may only place all buildings and landmines on team tiles or unclaimed tiles. they will be blocked by the game on other team's tiles.
  - placing buildings (not landmines) on unclaimed tiles will automatically place team tiles if you/storage has enough. otherwise the building will be returned to the player.
  - you can not remove land claim from under a building that needs it
  - you can not place a land claim on top of another teams land claim
  - power poles don't attach to other team (connections removed by mod)
- - players can change team via command or admins can move them via command
+ - power poles can only be placed where their entire powered radius can have team tiles placed under them. on placing the power pole team tiles for their powered radius will be taken from the player and placed. otherwise the pole will be ripped up and returned.
  - add a large wooden power pole with long wire reach, but no powered area. effectient for taking power across unclaimed land early on. (seperate mod, but as pre-req)
- - power poles can only be placed where their entire powered radius can have team tiles placed under them. on placing the power pole team tiles for their powered radius will be takne from the player and placed. otherwise the pole will be ripped up and returned.
- - start the game with a box of 100 land claims per team
+ - 2 new teams for the factories, each set to enemy with each other, but with a mutual cease fire. so can't interact with each others stuff, but won't automatically shoot each other.
+ - breach team is allied to everyone including biters
+ - players can change team via command or admins can move them via command
+ - player permissions are limited so that default "player" team is like a spectator and breach can only shoot, not build.
 
 
 TODO v1:
@@ -49,13 +50,16 @@ TODO v1:
  - manually connect to other teams eletric or circuit network = breach
  - drop items on other teams tiles = breach
  - players can change team via command or join breach
- - breach agents are units that phase in from main buildings and slowly hunt the player. they detain when physical contact is made and player is held as a breacher for some time based on crime. maybe some sort of armed breach agent from headquarters as well.
+ - breach agents are units that phase in from main buildings and slowly hunt the player. they detain when physical contact is made and player is held as a breacher for some time based on crime. maybe some sort of armed breach agent from headquarters as well?
  - players can be breach agents, they do breach agent jobs and can not interact with any of the real world. they are breach models and effects.
  - killing/attacking a breach agent is a seious offence
 
- - Players can change factory alliangence, visit the other factory and join the breach team via the Copula Hall (breach and invunverable).
+ - breach buildings are invunverable and are onlt Cpula Hall complex at spawn.
+ - players can visit the other factory as a tourist, have full restricted permissions to stop griefing
+ - Players can change factory allegiance, visit the other factory and join the breach team via the Copula Hall.
  - When players change team or visit the other team you leave everything behind in a team box at copula hall, no ability to rob other team. Applies to command or via GUI (Copula Hall)
- - when you pickup an item from the ground or spawn with anything it is convert it to be your team specific version.
+ - when you pickup an item from the ground or spawn with anything it is converted to be your team specific version.
+ - spectator and breach team spawn with nothing
 
 
 Issues:

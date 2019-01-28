@@ -12,6 +12,7 @@ end
 function Forces.OnStartup()
     Forces.CreateForces()
     Forces.FixAllForcesEnabledRecipes()
+    Forces.CreatePermissionGroups()
 
     Forces.OnLoad()
 end
@@ -165,6 +166,24 @@ end
 function Forces.MovePlayerToForce(player, force)
     --TODO: empty inventory and do anything else required before moving the players team
     player.force = force
+    Events.Fire({name="SetPlayerPermissionGroup", player_index=player.index})
+end
+
+
+function Forces.CreatePermissionGroups()
+    local nonConstructionTeamAllowedActions = {[defines.input_action.write_to_console] = true, [defines.input_action.start_walking] = true, [defines.input_action.delete_permission_group] = true, [defines.input_action.add_permission_group] = true, [defines.input_action.edit_permission_group] = true}
+    game.permissions.create_group("ConstructionTeam")
+    local breachGroup = game.permissions.create_group("Breach")
+    local spectatorGroup = game.permissions.create_group("Spectator")
+    for _, action in pairs(defines.input_action) do
+        if not nonConstructionTeamAllowedActions[action] then
+            breachGroup.set_allows_action(action, false)
+            spectatorGroup.set_allows_action(action, false)
+        end
+    end
+    breachGroup.set_allows_action(defines.input_action.use_ability, true)
+    breachGroup.set_allows_action(defines.input_action.use_item, true)
+    breachGroup.set_allows_action(defines.input_action.change_shooting_state, true)
 end
 
 

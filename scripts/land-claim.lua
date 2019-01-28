@@ -187,13 +187,11 @@ function LandClaim.CheckLandClaimNeededForBuilding(createdEntity, builder, landC
 
     local searchArea = Utils.ApplyBoundingBoxToPosition(createdEntity.position, createdEntity.prototype.collision_box, createdEntity.direction)
     local tilesToCheck = Utils.CalculateTilesUnderPositionedBoundingBox(searchArea)
-    game.print(serpent.block(landClaimNeeded))
     for _, tilePosition in pairs(tilesToCheck) do
         local tileEntityPosition = Utils.ApplyOffsetToPosition(tilePosition, {x=0.5, y=0.5})
         local landClaimFoundCount = surface.count_entities_filtered{area = Utils.CalculateBoundingBoxFromPositionAndRange(tileEntityPosition, 0.1), force = builder.force, name = landClaimName}
         if landClaimFoundCount == 0 then
             landClaimNeeded[Utils.FormatPositionTableToString(tileEntityPosition)] = tileEntityPosition
-            game.print(Logging.PositionToString(tileEntityPosition))
         end
     end
 

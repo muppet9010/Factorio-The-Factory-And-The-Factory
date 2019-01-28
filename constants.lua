@@ -37,6 +37,11 @@ Constants.Teams = {
         name = "breach",
         playerConstruction = false,
         displayName = "Breach"
+    },
+    player = {
+        name = "player",
+        playerConstruction = false,
+        displayName = "Spectator"
     }
 }
 
