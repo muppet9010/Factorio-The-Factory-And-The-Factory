@@ -8,12 +8,13 @@ local itemNamesAffectedByLandOwnership = {} -- { {ITEMNAME = true} }
 local generatedLandOwnershipEntityNames = {}
 local function GenerateLandOwnershipSpecificGameEntities(team)
     for type, prototypes in pairs(data.raw) do
-        if Constants.EntityTypesAffectedByLandOwnership[type] then
+        if Constants.EntityTypesAffectedByLandOwnership[type] or Constants.EntityTypesNotOnOpponentLandOwnership[type] then
             for _, prototype in pairs(prototypes) do
                 if not generatedLandOwnershipEntityNames[prototype.name] then
                     local landOwnedSpecificEntity = table.deepcopy(prototype)
                     landOwnedSpecificEntity.name = Constants.MakeTeamSpecificThingName(team, landOwnedSpecificEntity.name)
                     if landOwnedSpecificEntity.collision_mask == nil then
+                        HERE - change to use a type to collision lookup table based on wiki: https://wiki.factorio.com/Prototype/Entity#collision_mask
                         landOwnedSpecificEntity.collision_mask = {"item-layer", "object-layer", "player-layer", "water-tile"} --have to set a default for those that have nothing set in lua but inherit a default in game code if nil
                     end
                     for _, mask in pairs(team.buildingCollisionMaskList) do
@@ -22,29 +23,8 @@ local function GenerateLandOwnershipSpecificGameEntities(team)
                     if landOwnedSpecificEntity.minable ~= nil then
                         landOwnedSpecificEntity.minable.result = Constants.MakeTeamSpecificThingName(team, landOwnedSpecificEntity.minable.result)
                     end
-                    landOwnedSpecificEntity.localised_name = {"entity-name." .. prototype.name}
-                    landOwnedSpecificEntity.localised_description = {"entity-description." .. prototype.name}
-                    data:extend({landOwnedSpecificEntity})
-                    entityNamesAffectedByLandOwnership[prototype.name] = true
-                    generatedLandOwnershipEntityNames[landOwnedSpecificEntity.name] = true
-                end
-            end
-        elseif Constants.EntityTypesNotOnOpponentLandOwnership[type] then
-            for _, prototype in pairs(prototypes) do
-                if not generatedLandOwnershipEntityNames[prototype.name] then
-                    local landOwnedSpecificEntity = table.deepcopy(prototype)
-                    landOwnedSpecificEntity.name = Constants.MakeTeamSpecificThingName(team, landOwnedSpecificEntity.name)
-                    if landOwnedSpecificEntity.collision_mask == nil then
-                        landOwnedSpecificEntity.collision_mask = {}
-                    end
-                    for _, mask in pairs(team.buildingCollisionMaskList) do
-                        table.insert(landOwnedSpecificEntity.collision_mask, mask)
-                    end
-                    if landOwnedSpecificEntity.minable ~= nil then
-                        landOwnedSpecificEntity.minable.result = Constants.MakeTeamSpecificThingName(team, landOwnedSpecificEntity.minable.result)
-                    end
-                    landOwnedSpecificEntity.localised_name = {"entity-name." .. prototype.name}
-                    landOwnedSpecificEntity.localised_description = {"entity-description." .. prototype.name}
+                    --landOwnedSpecificEntity.localised_name = {"entity-name." .. prototype.name}
+                    --landOwnedSpecificEntity.localised_description = {"entity-description." .. prototype.name}
                     data:extend({landOwnedSpecificEntity})
                     entityNamesAffectedByLandOwnership[prototype.name] = true
                     generatedLandOwnershipEntityNames[landOwnedSpecificEntity.name] = true
@@ -61,8 +41,23 @@ local function GenerateLandOwnershipSpecificGameItem(item, team)
         local landOwnedSpecificItem = table.deepcopy(item)
         landOwnedSpecificItem.name = Constants.MakeTeamSpecificThingName(team, landOwnedSpecificItem.name)
         landOwnedSpecificItem.place_result = Constants.MakeTeamSpecificThingName(team, landOwnedSpecificItem.place_result)
-        landOwnedSpecificItem.localised_name = {"entity-name." .. item.name}
-        landOwnedSpecificItem.localised_description = {"entity-description." .. item.name}
+        --landOwnedSpecificItem.localised_name = {"entity-name." .. item.name}
+        --landOwnedSpecificItem.localised_description = {"entity-description." .. item.name}
+        data:extend({landOwnedSpecificItem})
+        itemNamesAffectedByLandOwnership[item.name] = true
+        generatedLandOwnershipItemNames[landOwnedSpecificItem.name] = true
+    end
+end
+
+local function GenerateLandOwnershipSpecificRailPlannerItem(item, team)
+    if entityNamesAffectedByLandOwnership[item.place_result] and not generatedLandOwnershipItemNames[item.name] then
+        local landOwnedSpecificItem = table.deepcopy(item)
+        landOwnedSpecificItem.name = Constants.MakeTeamSpecificThingName(team, landOwnedSpecificItem.name)
+        landOwnedSpecificItem.place_result = Constants.MakeTeamSpecificThingName(team, landOwnedSpecificItem.place_result)
+        --landOwnedSpecificItem.localised_name = {"item-name." .. item.name}
+        --landOwnedSpecificItem.localised_description = {"item-description." .. item.name}
+        landOwnedSpecificItem.straight_rail = Constants.MakeTeamSpecificThingName(team, landOwnedSpecificItem.straight_rail)
+        landOwnedSpecificItem.curved_rail = Constants.MakeTeamSpecificThingName(team, landOwnedSpecificItem.curved_rail)
         data:extend({landOwnedSpecificItem})
         itemNamesAffectedByLandOwnership[item.name] = true
         generatedLandOwnershipItemNames[landOwnedSpecificItem.name] = true
@@ -73,7 +68,7 @@ local function GenerateLandOwnershipSpecificGameItems(team)
         GenerateLandOwnershipSpecificGameItem(item, team)
     end
     for _, item in pairs(data.raw["rail-planner"]) do
-        GenerateLandOwnershipSpecificGameItem(item, team)
+        GenerateLandOwnershipSpecificRailPlannerItem(item, team)
     end
 end
 

@@ -171,7 +171,7 @@ end
 
 
 function Forces.CreatePermissionGroups()
-    local nonConstructionTeamAllowedActions = {[defines.input_action.write_to_console] = true, [defines.input_action.start_walking] = true, [defines.input_action.delete_permission_group] = true, [defines.input_action.add_permission_group] = true, [defines.input_action.edit_permission_group] = true}
+    local nonConstructionTeamAllowedActions = {[defines.input_action.write_to_console] = true, [defines.input_action.start_walking] = true, [defines.input_action.delete_permission_group] = true, [defines.input_action.add_permission_group] = true, [defines.input_action.edit_permission_group] = true, [defines.input_action.gui_checked_state_changed] = true, [defines.input_action.gui_click] = true, [defines.input_action.gui_elem_changed] = true, [defines.input_action.gui_selection_state_changed] = true, [defines.input_action.gui_text_changed] = true, [defines.input_action.gui_value_changed] = true}
     game.permissions.create_group("ConstructionTeam")
     local breachGroup = game.permissions.create_group("Breach")
     local spectatorGroup = game.permissions.create_group("Spectator")

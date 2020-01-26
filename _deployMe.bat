@@ -4,10 +4,8 @@
 
 REM GET CURRENT NAMES AND VERSIONS
 SET folderpath=%cd%
-CD..
-SET parentFolder=%cd%
-CD %folderpath%
 SET batchfilename=%~n0%~x0
+SET factoriofolder=C:\FactorioModding
 
 
 REM GET VERSION AND MOD NAME FROM INFO FILE
@@ -25,14 +23,8 @@ SET modfoldername=%modname%_%version%
 
 
 
-REM COPY UTILS TO MOD
-RMDIR /S /Q "%folderpath%/factorio-utils"
-XCOPY "%parentFolder%/Factorio-Utils/utility" "%folderpath%/factorio-utils" /S /E /Y /I /Q
-
-
-
 REM REMOVE OLD FOLDER
-FOR /D %%G IN ("%APPDATA%\Factorio\mods\%modname%*") DO RMDIR /S /Q "%%~G"
+FOR /D %%G IN ("%factoriofolder%\mods\%modname%*") DO RMDIR /S /Q "%%~G"
 
 REM CREATE EXCLUDE FILES LIST
 ECHO .bat >> excludedfileslist.txt
@@ -41,7 +33,7 @@ ECHO notes >> excludedfileslist.txt
 ECHO excludedfileslist.txt >> excludedfileslist.txt
 
 REM COPY THE FILES
-XCOPY "%folderpath%" "%APPDATA%\Factorio\mods\%modfoldername%" /S /E /Y /I /Q /EXCLUDE:excludedfileslist.txt
+XCOPY "%folderpath%" "%factoriofolder%\mods\%modfoldername%" /S /E /Y /I /Q /EXCLUDE:excludedfileslist.txt
 
 REM DELETE THE EXCLUDE FILES LIST
 DEL /q excludedfileslist.txt
@@ -51,7 +43,7 @@ DEL /q excludedfileslist.txt
 
 
 REM DELETE OLD SCRIPT OUTPUT
-DEL /q %APPDATA%\Factorio\script-output\
+DEL /q %factoriofolder%\script-output\
 
 
 

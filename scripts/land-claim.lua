@@ -1,7 +1,7 @@
 local Constants = require("constants")
 local Events = require("factorio-utils/events")
 local Utils = require("factorio-utils/utils")
-local Logging = require("factorio-utils/logging")
+--local Logging = require("factorio-utils/logging")
 local LandClaim = {}
 
 
@@ -153,45 +153,48 @@ end
 
 function LandClaim.CheckLandClaimNeededForBuilding(createdEntity, builder, landClaimName)
     local surface = createdEntity.surface
-
     local landClaimNeeded = {}
 
-    --TODO: this is shifted 1 positive for entities that are on a tile boundary , not centred on a tile
-    if createdEntity.type == "electric-pole" and createdEntity.prototype.supply_area_distance > 0 then
-        local radius = createdEntity.prototype.supply_area_distance - 0.5
-        local normalisedCreatedEntityPosition = Utils.ApplyOffsetToPosition(createdEntity.position, {x=-0.5,y=-0.5})
-        local searchArea = Utils.CalculateBoundingBoxFromPositionAndRange(normalisedCreatedEntityPosition, radius)
-        local tilesToCheck = Utils.CalculateTilesUnderPositionedBoundingBox(searchArea)
-        for _, tilePosition in pairs(tilesToCheck) do
-            local tileEntityPosition = Utils.ApplyOffsetToPosition(tilePosition, {x=0.5, y=0.5})
-            if surface.can_place_entity{name=landClaimName, position=tileEntityPosition, force=createdEntity.force} then
-                local tileAtPosition = surface.get_tile(tileEntityPosition.x, tileEntityPosition.y)
-                if not tileAtPosition.collides_with("water-tile") then
-                    local entitiesFound = surface.find_entities_filtered{area = Utils.CalculateBoundingBoxFromPositionAndRange(tileEntityPosition, 0.1), name = Constants.AllLandClaimNamesList}
-                    local alreadyOwned = false
-                    for _, entity in pairs(entitiesFound) do
-                        if entity.name == landClaimName then
-                            alreadyOwned = true
-                            break
-                        elseif Constants.LandClaims[entity.name] ~= nil then
-                            return {}, true
+    if createdEntity.type == "straight-rail" or createdEntity.type == "curved-rail" then
+        game.print("rail not handled by land claim yet: " .. createdEntity.name)
+        --TODO: rail not handled by land claim yet
+    else
+        if createdEntity.type == "electric-pole" and createdEntity.prototype.supply_area_distance > 0 then
+            local radius = createdEntity.prototype.supply_area_distance - 0.5
+            local normalisedCreatedEntityPosition = Utils.ApplyOffsetToPosition(createdEntity.position, {x=-0.5,y=-0.5})
+            local searchArea = Utils.CalculateBoundingBoxFromPositionAndRange(normalisedCreatedEntityPosition, radius)
+            local tilesToCheck = Utils.CalculateTilesUnderPositionedBoundingBox(searchArea)
+            for _, tilePosition in pairs(tilesToCheck) do
+                local tileEntityPosition = Utils.ApplyOffsetToPosition(tilePosition, {x=0.5, y=0.5})
+                if surface.can_place_entity{name=landClaimName, position=tileEntityPosition, force=createdEntity.force} then
+                    local tileAtPosition = surface.get_tile(tileEntityPosition.x, tileEntityPosition.y)
+                    if not tileAtPosition.collides_with("water-tile") then
+                        local entitiesFound = surface.find_entities_filtered{area = Utils.CalculateBoundingBoxFromPositionAndRange(tileEntityPosition, 0.1), name = Constants.AllLandClaimNamesList}
+                        local alreadyOwned = false
+                        for _, entity in pairs(entitiesFound) do
+                            if entity.name == landClaimName then
+                                alreadyOwned = true
+                                break
+                            elseif Constants.LandClaims[entity.name] ~= nil then
+                                return {}, true
+                            end
                         end
-                    end
-                    if not alreadyOwned then
-                        landClaimNeeded[Utils.FormatPositionTableToString(tileEntityPosition)] = tileEntityPosition
+                        if not alreadyOwned then
+                            landClaimNeeded[Utils.FormatPositionTableToString(tileEntityPosition)] = tileEntityPosition
+                        end
                     end
                 end
             end
         end
-    end
 
-    local searchArea = Utils.ApplyBoundingBoxToPosition(createdEntity.position, createdEntity.prototype.collision_box, createdEntity.direction)
-    local tilesToCheck = Utils.CalculateTilesUnderPositionedBoundingBox(searchArea)
-    for _, tilePosition in pairs(tilesToCheck) do
-        local tileEntityPosition = Utils.ApplyOffsetToPosition(tilePosition, {x=0.5, y=0.5})
-        local landClaimFoundCount = surface.count_entities_filtered{area = Utils.CalculateBoundingBoxFromPositionAndRange(tileEntityPosition, 0.1), force = builder.force, name = landClaimName}
-        if landClaimFoundCount == 0 then
-            landClaimNeeded[Utils.FormatPositionTableToString(tileEntityPosition)] = tileEntityPosition
+        local searchArea = Utils.ApplyBoundingBoxToPosition(createdEntity.position, createdEntity.prototype.collision_box, createdEntity.orientation)
+        local tilesToCheck = Utils.CalculateTilesUnderPositionedBoundingBox(searchArea)
+        for _, tilePosition in pairs(tilesToCheck) do
+            local tileEntityPosition = Utils.ApplyOffsetToPosition(tilePosition, {x=0.5, y=0.5})
+            local landClaimFoundCount = surface.count_entities_filtered{area = Utils.CalculateBoundingBoxFromPositionAndRange(tileEntityPosition, 0.1), force = builder.force, name = landClaimName}
+            if landClaimFoundCount == 0 then
+                landClaimNeeded[Utils.FormatPositionTableToString(tileEntityPosition)] = tileEntityPosition
+            end
         end
     end
 

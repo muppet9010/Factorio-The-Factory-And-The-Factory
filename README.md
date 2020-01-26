@@ -34,8 +34,10 @@ Done v1:
 
 
 TODO v1:
- - positioned collision box (Utils.ApplyBoundingBoxToPosition) needs to account for the rotation of the entity - causing offshore pump to go wrong
- - landclaim tool can't remove claim tiles which are powered
+ - I have made everything have the minimum collision masks, rails and belts aren't walkable any more
+ - offshore pump has odd landclaim behaviour due to odd sized collision box
+ - rail needs to be handled by a special tile calcualtion due to its oddness
+ - landclaim tool shouldn't be able to remove claim tiles which are powered
  - robots placing power poles have same behaviour as when players placing them.
  - robots placing buildings have same behaviour and restrictions as players, take land claim from logic network magically or cancel ghost.
  - a team's tile can be placed on another teams tile to create a crosshatched area if the space is unoccupied. the team making the crosshatch must have their new crosshatch tile connected to another of their tiles or crosshatchs.
@@ -95,3 +97,8 @@ Ideas:
 Technical links:
 https://github.com/shanemadden/factorio-power-grid-comb/blob/master/control.lua
 https://github.com/mspielberg/factorio-miniloader/blob/master/lualib/onwireplaced.lua
+
+
+
+Mod Compatibility:
+Is not compatible with any mod that moves entities around the map or auto places entities for the player.
